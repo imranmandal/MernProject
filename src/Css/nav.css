@@ -1,0 +1,7 @@
+.nav-item{
+    color:black;
+    margin:10px;
+}
+.nav-item:hover{
+    text-decoration: none;
+}
