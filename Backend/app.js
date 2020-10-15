@@ -5,10 +5,12 @@ const bodyParser=require("body-parser");
 const mongoose=require("mongoose");
 var cors = require('cors');
 app.use(cors());
+// app.use(bodyParser.urlencoded({extended:false}))
 app.use(express.json());
 
-mongoose.connect('mongodb://localhost:27017/ReactTest', {useNewUrlParser: true, useUnifiedTopology: true});
-
+var uri="mongodb+srv://dbUttam:uttam123@firstuttamcluster.qpkqc.mongodb.net/ReactTest?retryWrites=true&w=majority"
+mongoose.connect(uri, {useNewUrlParser: true, useUnifiedTopology: true});
+mongoose.set('useCreateIndex', true);
 
 const userMo=require("./model.js");
 
@@ -61,6 +63,21 @@ app.delete("/user/:id",function(req,res){
 app.get("/user/:id",function(req,res){
     var _ID=req.params.id;
     userMo.findOne({_id:_ID},function(err,data){
+        if(!err)
+        {
+            res.json(data);
+        }
+        else
+        {  
+           
+               res.json(data);
+           
+        }
+    })
+})
+app.get("/user",function(req,res){
+    var email=req.body.email;
+    userMo.findOne({email:email},function(err,data){
         if(!err)
         {
             res.json(data);

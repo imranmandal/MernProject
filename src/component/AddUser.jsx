@@ -1,87 +1,121 @@
 import React, { useState } from "react";
 import "../Css/adduser.css";
 import axios from "axios";
+import ModalCom from "./Modal";
+import { Button } from "reactstrap";
+
 
 
 function AddUser() {
 
-    const [userAdd,setUserAdd]=useState({
-        user:"",
-        email:""
+    const [userAdd, setUserAdd] = useState({
+        user: "",
+        email: ""
 
     })
-    function handleChange(event)
-    {
-        const {value,name}=event.target;
-        setUserAdd(preValue=>{
+
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
+
+    function handleChange(event) {
+        const { value, name } = event.target;
+        setUserAdd(preValue => {
             return {
                 ...preValue,
-                [name]:value
+                [name]: value
             }
         })
-        
+
     }
-    function handleSubmit(event)
-    {
-        
-        
-        const NewUser={
-            user:userAdd.user,
-            email:userAdd.email
+    function handleSubmit(event) {
+
+console.log(userAdd);
+        const NewUser = {
+            title: userAdd.user,
+            question: userAdd.email
         }
-        
-        axios.post("http://localhost:5000/user",NewUser)
-        .then(res=>console.log(res.data));
-   
-        event.preventDefault();
+
        
-        
+
+        // window.location="/show-user"
+        event.preventDefault();
+
+
 
     }
-    
+    function handleClickToAddUser() {
+        setIsModalOpen(!isModalOpen)
+
+    }
+
+    return <div className="padding-10">
 
 
-    return <div>
-        <form onSubmit={handleSubmit} className="form-group">
+        <button className="btn btn-primary"
+            onClick={handleClickToAddUser}
+        > Create a User </button>
+        <ModalCom toggle={handleClickToAddUser}
+            isOpen={isModalOpen}
+            Body={
 
-            <div className="input">
-                <label htmlFor="userName">Username</label>
-                <input type="text"
-                    className="form-control"
-                    id="userName"
-                    placeholder="Enter UserName"
-                    name="user"
-                    onChange={handleChange}
-                    value={userAdd.user}
-                  
-                  
-                />
+                <form onSubmit={handleSubmit} className="form-group">
 
-            </div>
-            <div className="form-group input">
-                <label htmlFor="email-address">Email</label>
-                <input type="email"
-                    className="form-control"
-                    id="email-address"
-                    name="email"
-                    onChange={handleChange}
-                    value={userAdd.email}
-                    placeholder="Enter Email"
+                    <div className="input">
+                        <label htmlFor="userName">Username</label>
+                        <input type="text"
+                            className="form-control"
+                            id="userName"
+                            placeholder="Enter UserName"
+                            name="user"
+                            onChange={handleChange}
+                            value={userAdd.user}
+
+
+                        />
+
+                    </div>
+                    <div className="form-group input">
+                        <label htmlFor="email-address">Email</label>
+                        <input type="email"
+                            className="form-control"
+                            id="email-address"
+                            name="email"
+                            onChange={handleChange}
+                            value={userAdd.email}
+                            placeholder="Enter Email"
+
+                        />
+                    </div>
+                    <div>
+
+                    </div>
+
+
+                    <button type="submit"
+                        className="btn btn-primary">Submit</button>
+
+                </form>
+
+
+
+            }
+            Header="Add New User"
+            Footer={
+                <React.Fragment>
                     
-                />
-            </div>
-            <div>
+                    <Button type="button" onClick={handleClickToAddUser} className="btn btn-warning">
+                        Cancel
+                    </Button>
 
-            </div>
+                </React.Fragment>
 
-            <button type="submit" 
-                className="btn btn-primary"
-            
-                >Submit</button>
-            
-           
 
-        </form>
+
+
+
+            }
+        />
+
 
     </div>
 }

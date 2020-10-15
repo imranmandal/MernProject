@@ -1,0 +1,21 @@
+.mainForm{
+    border:1px solid red;
+    padding:10px;
+    background-color: #f6f5f5;
+}
+.main{
+    margin-top:20px;
+}
+.label{
+    font-weight:bold;
+    color:black;
+}
+.btn{
+    background-color: #0095FF;
+}
+.btn:hover{
+    background-color:#7579e7     ;
+}
+.titleLabel{
+    padding:10px 0 10px;
+}
