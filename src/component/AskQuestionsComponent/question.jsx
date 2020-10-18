@@ -7,60 +7,112 @@ export default class question extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            Question: []
+            Question: [],
+            fullname: "",
+            answer: "",
+            Answers:[]
+
         }
-
+        this.handleChange = this.handleChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
-    componentDidMount() {
+    handleChange(event) {
+        const { name, value } = event.target;
+        this.setState(preValue=>{
+            return{
+                ...preValue,
+                [name]:value
+            }
+        })
 
-        Axios.get("http://localhost:5000/question/" + this.props.match.params.id)
-            .then(res => {
-                console.log(res.data);
-                this.setState({
-                    Question: res.data
+}
+handleSubmit(event)
+{
+    alert( this.props.match.params.id)
+   var answers={
+       fullname:this.state.fullname,
+       answer:this.state.answer
+   }
+  Axios.put("http://localhost:5000/answer/"+this.props.match.params.id,answers)
+  .then(res=>{
+       alert(JSON.stringify(res.data));
+  })
+    event.preventDefault();
+    window.location="/question/"+this.props.match.params.id
 
-                })
+}
+componentDidMount() {
+
+    Axios.get("http://localhost:5000/question/" + this.props.match.params.id)
+        .then(res => {
+            console.log(res.data.answers);
+            this.setState({
+                Question: res.data,
+                Answers:res.data.answers
+                
+               
             })
-    }
-    render() {
-        return (
-            <div className="main">
+        })
+        
+}
+render() {
+    return (
+        <div className="main">
 
-                <Container>
-                    <h3>{this.state.Question.title}</h3>
-                    <Row>
-                        <Col lg="6" sm="12">
-                            <p>{this.state.Question.question}</p>
-                            <div>
+            <Container>
+                <h3>{this.state.Question.title}</h3>
+                <Row>
+                    <Col lg="6" sm="12">
+                        <p>{this.state.Question.question}</p>
+                        <div>
+                           {this.state.Answers.map(ans=>{
+                               return <div> <small>{ans.fullname}</small>
+                                    <p>{ans.answer}</p>
+                               </div>
+                           })}
+                        </div>
+                        <div>
                             <p>If you know the answer of this question then give it below sectiona and submit your answer !!</p>
-                                <Form >
-                                    
-                                    <FormGroup>
-                                        <Label className="label" Htmlfor="desc">Your Answer</Label>
-                                        <Input type="textarea"
+                            <Form onSubmit={this.handleSubmit}>
+                                <FormGroup>
+                                    <Label className="label" Htmlfor="name">Your Name</Label>
+                                    <Input type="text"
+                                        onChange={this.handleChange}
+                                        name="fullname"
+                                        value={this.state.fullname}
 
-                                            rows="8" name="question"
+                                    />
+                                </FormGroup>
 
-                                            id="desc" />
-                                    </FormGroup>
-                                    <Button type="submit" className="btn">Post Your Answer</Button>
+                                <FormGroup>
 
-                                </Form>
+                                    <Label className="label" Htmlfor="desc">Your Answer</Label>
+                                    <Input type="textarea"
 
-                            </div>
+                                        rows="8" name="answer"
+                                        onChange={this.handleChange}
+                                        value={this.state.answer}
+
+                                        id="desc" />
+                                </FormGroup>
+                                <Button type="submit" className="btn">Post Your Answer</Button>
+
+                            </Form>
+
+                        </div>
 
 
 
+                    </Col>
+                    <Col lg="6" sm="12">
+
+                        hii
                         </Col>
-                        <Col lg="6" sm="12">
 
-                            hii
-                        </Col>
+                </Row>
+            </Container>
 
-                    </Row>
-                </Container>
-
-            </div>
-        )
-    }
+        </div>
+    )
+}
 }

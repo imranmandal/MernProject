@@ -20,11 +20,12 @@ export default class Home extends Component {
                         return data
                     })
                 })
+               
             })
             .catch(err => {
                 console.log(err.message);
             })
-        console.log(this.state.allQuestion);
+        
 
     }
     render() {
@@ -51,7 +52,7 @@ export default class Home extends Component {
                                 return <Card>
                                     <CardBody>
                                         <CardLink href={"/question/"+allquestion._id}>{allquestion.title}</CardLink>
-                                        <CardText>{allquestion.question.substring(1, 100) + ".."}</CardText>
+                                        <CardText>{allquestion.question}</CardText>
                                     </CardBody>
                                 </Card>
                             })}

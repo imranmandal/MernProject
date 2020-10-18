@@ -33,7 +33,8 @@ class AskQuestion extends Component {
     {
         const newQuestion={
             title:this.state.title,
-            question:this.state.question
+            question:this.state.question,
+            
         }
         axios.post("http://localhost:5000/add-question", newQuestion)
         .then(res => console.log(res.data));
